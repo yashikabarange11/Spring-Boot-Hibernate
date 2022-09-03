@@ -1,5 +1,6 @@
 package com.project.SpringBootHibernate.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -29,6 +30,7 @@ public class Member {
 
 
     @ManyToMany(mappedBy = "members")
+    @JsonBackReference
     private Set<Team> teams = new HashSet<>();
 
 

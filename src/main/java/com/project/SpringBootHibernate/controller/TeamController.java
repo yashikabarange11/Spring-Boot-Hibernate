@@ -1,42 +1,54 @@
 package com.project.SpringBootHibernate.controller;
 
+import com.project.SpringBootHibernate.dto.TeamDto;
 import com.project.SpringBootHibernate.entity.Team;
-import com.project.SpringBootHibernate.service.MemberService;
+
 import com.project.SpringBootHibernate.service.TeamService;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
+@Data
 @RestController
 public class TeamController {
     @Autowired
     private TeamService teamService;
-    private MemberService memberService;
 
-    @PostMapping("/saveTeam")
-    public Team saveTeam(
-            @Validated @RequestBody Team team
+    @PostMapping(value = "/saveTeam",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Team>saveTeam(
+            @RequestBody TeamDto teamDto){
+                Team persistedTeam = teamService.save(teamDto);
+
+                return  new ResponseEntity<>(persistedTeam, HttpStatus.CREATED);
+    }
+
+
+
+    @GetMapping(value = "/getTeam/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public  ResponseEntity<Team>getTeam(
+            @PathVariable final  Long teamId
     ){
-        return teamService.saveTeam(team);
+       Team persistedTeam = teamService.getById(teamId) ;
+
+       return  new ResponseEntity<>(persistedTeam, HttpStatus.CREATED);
     }
 
-    @GetMapping("/getTeam")
-    public List<Team> fetchTeamList()
 
-    {
-        return teamService.fetchTeamList();
+
+    @PutMapping(value = "/updateTeams/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Team>updateTeam(
+            @PathVariable("id") Long teamId,
+            @RequestBody TeamDto teamDto
+    ){
+        Team persistedTeam= teamService.update(teamId, teamDto);
+
+        return  new ResponseEntity<>(persistedTeam, HttpStatus.OK);
+    }
     }
 
-    @PutMapping("{team_id}/updateTeams/{id}")
-    public Team updateTeam(@RequestBody Team team,
-                           @PathVariable("team_id") Long teamId,
-                            @PathVariable("id")Long memId)
-    {
-        return teamService.updateTeam(
-                team, teamId
-        );
-    }
 
-}

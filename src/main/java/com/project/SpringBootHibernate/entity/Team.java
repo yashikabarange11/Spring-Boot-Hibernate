@@ -1,7 +1,7 @@
 package com.project.SpringBootHibernate.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 
@@ -31,34 +31,24 @@ public class Team {
     private String owner;
     private String moduleOwned;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST,
-                    CascadeType.MERGE
-    })
+    @ManyToMany
     @JoinTable(
             name = "team_members",
-            joinColumns = {@JoinColumn(
+            joinColumns = @JoinColumn(
                     name = "team_Id",
                     referencedColumnName = "teamId"
 
-            )},
-            inverseJoinColumns = {@JoinColumn(
+            ),
+            inverseJoinColumns = @JoinColumn(
                     name = "mem_Id",
                     referencedColumnName = "memId"
 
-            )}
+            )
     )
-
+    @JsonManagedReference
     private Set<Member>members = new HashSet<>();
 
 
-    /*@OneToMany(cascade = CascadeType.ALL)
-     @JoinColumn(
-             name = "team_id",
-         referencedColumnName = "teamId"
-     )
-
-     private List<Instance> instances;*/
 
 
 }

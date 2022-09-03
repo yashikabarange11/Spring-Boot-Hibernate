@@ -1,14 +1,15 @@
 package com.project.SpringBootHibernate.service;
 
+import com.project.SpringBootHibernate.dto.MemberDto;
 import com.project.SpringBootHibernate.entity.Member;
 
 import java.util.List;
 
 public interface MemberService {
-     Member saveMember(Member member) ;
+     Member saveMember(MemberDto memberDto) ;
 
-     List<Member> fetchMemberList() ;
+     List<Member> all() ;
 
-    Void deleteMemberById(Long memId) ;
+    Member getOne(Long memId);
 
 }

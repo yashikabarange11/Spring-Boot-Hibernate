@@ -1,63 +1,84 @@
 package com.project.SpringBootHibernate.service;
 
 
+import com.project.SpringBootHibernate.dto.TeamDto;
+import com.project.SpringBootHibernate.entity.Member;
 import com.project.SpringBootHibernate.entity.Team;
+import com.project.SpringBootHibernate.repository.MemberRepository;
 import com.project.SpringBootHibernate.repository.TeamRepository;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
+
+@Data
 
 @Service
 public class TeamServiceImpl implements TeamService {
     @Autowired
     private TeamRepository teamRepository;
 
+    @Autowired
+    private MemberRepository memberRepository;
+
+
     @Override
-    public Team saveTeam(Team team){
+    @Transactional
+    public Team save(TeamDto teamDto) {
+
+        String teamName = teamDto.getTeamName();
+        String owner = teamDto.getOwner();
+        String moduleOwned = teamDto.getModuleOwned();
+
+        Team team = new Team();
+        team.setTeamName(teamName);
+        team.setOwner(owner);
+        team.setModuleOwned(moduleOwned);
+
+        List<Member>memberProxies = new ArrayList<>();
+
+        for(Long memId : teamDto.getMemberIds()){
+            Member tempMember = memberRepository.getOne(memId);
+            memberProxies.add(tempMember);
+        }
+        team.setMembers(new HashSet<>(memberProxies));
+
+
         return teamRepository.save(team);
     }
 
     @Override
-    public List<Team> fetchTeamList(){
-        return (List<Team>)
-                teamRepository.findAll();
-
+    public Team getById(Long teamId) {
+        return teamRepository.findById(teamId).get();
     }
 
     @Override
-    public Team updateTeam(Team team, Long teamId) {
-        Team teamDB = teamRepository.findById(teamId).get();
+    public Team update(Long teamId, TeamDto teamDto) {
+        String teamName = teamDto.getTeamName();
+        String owner = teamDto.getOwner();
+        String moduleOwned = teamDto.getModuleOwned();
 
-        /*if (Objects.nonNull(team.getTeamName())
-                && !"".equalsIgnoreCase(team.getTeamName())
-        ) {
-            teamDB.setTeamName(team.getTeamName());
+        Team team = new Team();
+        team.setTeamName(teamName);
+        team.setOwner(owner);
+        team.setModuleOwned(moduleOwned);
+        team.setTeamId(teamId);
+
+        List<Member>memberProxies = new ArrayList<>();
+
+        for(Long memId : teamDto.getMemberIds()){
+            Member tempMember = memberRepository.getOne(memId);
+            memberProxies.add(tempMember);
         }
-        if(Objects.nonNull(team.getOwner())
-        && !"".equalsIgnoreCase((team.getOwner()))
-        ){
-            teamDB.setOwner(team.getOwner());
-        }
-        if(Objects.nonNull(team.getModuleOwned())
-        && !"".equalsIgnoreCase(team.getModuleOwned())
-        ){
-            teamDB.setModuleOwned(team.getModuleOwned());
-        }
-        if(Objects.nonNull(team.getMembers())
-        && !"".equalsIgnoreCase(team.getMembers().toString()))
-        {
-            teamDB.setMembers(team.getMembers());
-        }
-        if(Objects.nonNull(team.getInstances())
-        && !"".equalsIgnoreCase(team.getInstances().toString()))
-        {
-            teamDB.setInstances(team.getInstances());
-        }*/
-    return teamRepository.save(teamDB);
+        team.setMembers(new HashSet<>(memberProxies));
+
+
+        return teamRepository.save(team);
     }
-
 }
 
 
