@@ -32,23 +32,23 @@ public class TeamController {
 
 
 
-    @GetMapping(value = "/getTeam/{teamId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/getTeam/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     public  ResponseEntity<Team>getTeam(
-            @PathVariable final  Long teamId
+            @PathVariable final  Long id
     ){
-       Team persistedTeam = teamService.getById(teamId) ;
+       Team persistedTeam = teamService.getById(id) ;
 
        return  new ResponseEntity<>(persistedTeam, HttpStatus.CREATED);
     }
 
 
 
-    @PutMapping(value = "/updateTeams/{teamId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/updateTeams/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Team>updateTeam(
-            @PathVariable("teamId") Long teamId,
+            @PathVariable("teamId") Long id,
             @RequestBody TeamDto teamDto
     ){
-        Team persistedTeam= teamService.update(teamId, teamDto);
+        Team persistedTeam= teamService.update(id, teamDto);
 
         return  new ResponseEntity<>(persistedTeam, HttpStatus.OK);
     }

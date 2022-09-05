@@ -36,7 +36,7 @@ public class Team {
             name = "team_members",
             joinColumns = @JoinColumn(
                     name = "team_Id",
-                    referencedColumnName = "teamId"
+                    referencedColumnName = "id"
 
             ),
             inverseJoinColumns = @JoinColumn(
@@ -47,7 +47,6 @@ public class Team {
     )
     @JsonManagedReference
     private Set<Member>members = new HashSet<>();
-
 
 
 

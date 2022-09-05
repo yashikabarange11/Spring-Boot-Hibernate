@@ -11,7 +11,7 @@ import java.util.List;
 public class TeamDto {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long teamId;
+    private Long id;
     private String teamName;
     private String owner;
     private String moduleOwned;

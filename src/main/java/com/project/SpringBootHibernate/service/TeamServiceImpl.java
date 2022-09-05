@@ -53,13 +53,13 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public Team getById(Long teamId) {
+    public Team getById(Long id) {
         //noinspection OptionalGetWithoutIsPresent
-        return teamRepository.findById(teamId).get();
+        return teamRepository.findById(id).get();
     }
 
     @Override
-    public Team update(Long teamId, @NotNull TeamDto teamDto) {
+    public Team update(Long id, @NotNull TeamDto teamDto) {
         String teamName = teamDto.getTeamName();
         String owner = teamDto.getOwner();
         String moduleOwned = teamDto.getModuleOwned();
@@ -68,12 +68,12 @@ public class TeamServiceImpl implements TeamService {
         team.setTeamName(teamName);
         team.setOwner(owner);
         team.setModuleOwned(moduleOwned);
-        team.setTeamId(teamId);
+        team.setId(id);
 
         List<Member>memberProxies = new ArrayList<>();
 
         for(Long memId : teamDto.getMemberIds()){
-            Member tempMember = memberRepository.getReferenceById(memId);
+            Member tempMember = memberRepository.getOne(memId);
             memberProxies.add(tempMember);
         }
         team.setMembers(new HashSet<>(memberProxies));
