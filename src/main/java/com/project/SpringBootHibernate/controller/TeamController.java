@@ -3,6 +3,7 @@ package com.project.SpringBootHibernate.controller;
 import com.project.SpringBootHibernate.dto.TeamDto;
 import com.project.SpringBootHibernate.entity.Team;
 
+import com.project.SpringBootHibernate.service.MemberService;
 import com.project.SpringBootHibernate.service.TeamService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ public class TeamController {
     @Autowired
     private TeamService teamService;
 
+
+
     @PostMapping(value = "/saveTeam",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Team>saveTeam(
             @RequestBody TeamDto teamDto){
@@ -29,7 +32,7 @@ public class TeamController {
 
 
 
-    @GetMapping(value = "/getTeam/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/getTeam/{teamId}",produces = MediaType.APPLICATION_JSON_VALUE)
     public  ResponseEntity<Team>getTeam(
             @PathVariable final  Long teamId
     ){
@@ -40,9 +43,9 @@ public class TeamController {
 
 
 
-    @PutMapping(value = "/updateTeams/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/updateTeams/{teamId}",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Team>updateTeam(
-            @PathVariable("id") Long teamId,
+            @PathVariable("teamId") Long teamId,
             @RequestBody TeamDto teamDto
     ){
         Team persistedTeam= teamService.update(teamId, teamDto);

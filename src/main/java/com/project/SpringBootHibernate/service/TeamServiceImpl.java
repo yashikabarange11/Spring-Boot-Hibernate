@@ -7,6 +7,7 @@ import com.project.SpringBootHibernate.entity.Team;
 import com.project.SpringBootHibernate.repository.MemberRepository;
 import com.project.SpringBootHibernate.repository.TeamRepository;
 import lombok.Data;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     @Transactional
-    public Team save(TeamDto teamDto) {
+    public Team save(@NotNull TeamDto teamDto) {
 
         String teamName = teamDto.getTeamName();
         String owner = teamDto.getOwner();
@@ -53,11 +54,12 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public Team getById(Long teamId) {
+        //noinspection OptionalGetWithoutIsPresent
         return teamRepository.findById(teamId).get();
     }
 
     @Override
-    public Team update(Long teamId, TeamDto teamDto) {
+    public Team update(Long teamId, @NotNull TeamDto teamDto) {
         String teamName = teamDto.getTeamName();
         String owner = teamDto.getOwner();
         String moduleOwned = teamDto.getModuleOwned();
@@ -71,7 +73,7 @@ public class TeamServiceImpl implements TeamService {
         List<Member>memberProxies = new ArrayList<>();
 
         for(Long memId : teamDto.getMemberIds()){
-            Member tempMember = memberRepository.getOne(memId);
+            Member tempMember = memberRepository.getReferenceById(memId);
             memberProxies.add(tempMember);
         }
         team.setMembers(new HashSet<>(memberProxies));
