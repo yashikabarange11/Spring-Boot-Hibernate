@@ -4,19 +4,23 @@ package com.project.SpringBootHibernate.service;
 import com.project.SpringBootHibernate.dto.MemberDto;
 import com.project.SpringBootHibernate.entity.Member;
 import com.project.SpringBootHibernate.repository.MemberRepository;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Data
 @Service
+
 public class MemberServiceImpl implements MemberService {
     @Autowired
-    private MemberRepository memberRepository;
+    private  MemberRepository memberRepository;
 
 
     @Override
-    public Member saveMember(MemberDto memberDto) {
+    public Member saveMember(@NotNull MemberDto memberDto) {
 
         Member member = new Member();
         member.setMemName(memberDto.getMemName());
@@ -33,6 +37,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    @Deprecated
     public Member getOne(Long memId) {
         return memberRepository.getOne(memId);
     }

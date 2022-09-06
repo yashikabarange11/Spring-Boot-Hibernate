@@ -10,8 +10,7 @@ import java.util.List;
 
 public class TeamDto {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue
     private String teamName;
     private String owner;
     private String moduleOwned;

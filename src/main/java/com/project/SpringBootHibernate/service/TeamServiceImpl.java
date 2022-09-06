@@ -7,6 +7,8 @@ import com.project.SpringBootHibernate.entity.Team;
 import com.project.SpringBootHibernate.repository.MemberRepository;
 import com.project.SpringBootHibernate.repository.TeamRepository;
 import lombok.Data;
+
+
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,15 +23,19 @@ import java.util.List;
 @Service
 public class TeamServiceImpl implements TeamService {
     @Autowired
-    private TeamRepository teamRepository;
+    private  TeamRepository teamRepository;
 
     @Autowired
-    private MemberRepository memberRepository;
+    private  MemberRepository memberRepository;
 
 
     @Override
     @Transactional
+    @Deprecated
+
     public Team save(@NotNull TeamDto teamDto) {
+
+
 
         String teamName = teamDto.getTeamName();
         String owner = teamDto.getOwner();
@@ -59,6 +65,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    @Deprecated
     public Team update(Long id, @NotNull TeamDto teamDto) {
         String teamName = teamDto.getTeamName();
         String owner = teamDto.getOwner();

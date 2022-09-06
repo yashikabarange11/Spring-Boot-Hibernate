@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface TeamService {
     Team save(TeamDto team);
-    Team getById(Long teamId);
+    Team getById(Long id);
 
-    Team update(Long teamId, TeamDto teamDto);
+    Team update(Long id, TeamDto teamDto);
 
 
 }

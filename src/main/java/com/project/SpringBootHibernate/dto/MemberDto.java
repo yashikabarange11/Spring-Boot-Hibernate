@@ -10,8 +10,7 @@ import javax.persistence.Id;
 public class MemberDto {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long memId;
+    @GeneratedValue
     private String memName;
     private String emailId;
     private String role;

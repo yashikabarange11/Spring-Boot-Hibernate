@@ -8,6 +8,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
+
 import java.util.Set;
 
 
@@ -18,35 +19,34 @@ import java.util.Set;
 
 @Builder
 @Table(name = "TeamTable")
-
 public class Team {
 
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.AUTO
-    )
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String teamName;
+
     private String owner;
+
     private String moduleOwned;
 
     @ManyToMany
     @JoinTable(
             name = "team_members",
             joinColumns = @JoinColumn(
-                    name = "team_Id",
+                    name = "teamId",
                     referencedColumnName = "id"
 
             ),
             inverseJoinColumns = @JoinColumn(
-                    name = "mem_Id",
+                    name = "memId",
                     referencedColumnName = "memId"
 
             )
     )
     @JsonManagedReference
-    private Set<Member>members = new HashSet<>();
+    private  Set<Member> members = new HashSet<>();
 
 
 
